@@ -1,0 +1,1 @@
+export { IngressesAccordions } from './IngressesAccordions';

@@ -1,0 +1,23 @@
+import { RELATION_HAS_PART } from '@backstage/catalog-model';
+import React from 'react';
+import { R as RelatedEntitiesCard, c as componentEntityColumns, d as componentEntityHelpLink, e as asComponentEntities } from './presets-13b889b9.esm.js';
+import '@material-ui/core';
+import '@backstage/plugin-catalog-react';
+import '@backstage/core-components';
+
+function HasComponentsCard(props) {
+  const { variant = "gridItem" } = props;
+  return /* @__PURE__ */ React.createElement(RelatedEntitiesCard, {
+    variant,
+    title: "Has components",
+    entityKind: "Component",
+    relationType: RELATION_HAS_PART,
+    columns: componentEntityColumns,
+    emptyMessage: "No component is part of this system",
+    emptyHelpLink: componentEntityHelpLink,
+    asRenderableEntities: asComponentEntities
+  });
+}
+
+export { HasComponentsCard };
+//# sourceMappingURL=index-acb3cf04.esm.js.map

@@ -1,0 +1,1 @@
+export { SentryIssuesWidget } from './SentryIssuesWidget';

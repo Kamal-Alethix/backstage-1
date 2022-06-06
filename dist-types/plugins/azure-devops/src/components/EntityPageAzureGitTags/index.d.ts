@@ -1,0 +1,1 @@
+export { EntityPageAzureGitTags } from './EntityPageAzureGitTags';

@@ -1,0 +1,1 @@
+export { AllureReportComponent } from './AllureReportComponent';

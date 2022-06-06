@@ -1,0 +1,1 @@
+export { CodeClimateTable } from './CodeClimateTable';

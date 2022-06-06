@@ -1,0 +1,1 @@
+export { CatalogGraphPage } from './CatalogGraphPage';

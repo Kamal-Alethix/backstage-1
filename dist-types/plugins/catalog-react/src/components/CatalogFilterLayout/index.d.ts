@@ -1,0 +1,1 @@
+export { CatalogFilterLayout } from './CatalogFilterLayout';

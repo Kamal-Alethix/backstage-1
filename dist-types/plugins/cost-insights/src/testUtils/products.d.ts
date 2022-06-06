@@ -1,0 +1,12 @@
+import { Entity, Product } from '../types';
+declare type mockEntityRenderer<T> = (entity: T) => T;
+export declare const createMockEntity: (callback?: mockEntityRenderer<Entity> | undefined) => Entity;
+export declare const createMockProduct: (callback?: mockEntityRenderer<Product> | undefined) => Product;
+export declare const MockProductTypes: Record<string, string>;
+export declare const MockProducts: Product[];
+export declare const MockComputeEngine: Product;
+export declare const MockCloudDataflow: Product;
+export declare const MockCloudStorage: Product;
+export declare const MockBigQuery: Product;
+export declare const MockBigtable: Product;
+export {};

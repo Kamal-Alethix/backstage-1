@@ -1,0 +1,1 @@
+export { CodeOwnersProcessor } from './CodeOwnersProcessor';

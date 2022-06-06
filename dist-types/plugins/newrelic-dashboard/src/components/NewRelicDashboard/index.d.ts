@@ -1,0 +1,1 @@
+export { NewRelicDashboard } from './NewRelicDashboard';

@@ -1,0 +1,1 @@
+export { CodeClimateCard } from './CodeClimateCard';

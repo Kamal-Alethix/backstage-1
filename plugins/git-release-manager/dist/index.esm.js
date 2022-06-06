@@ -1,0 +1,19 @@
+export { m as GitReleaseManagerPage, b as gitReleaseManagerApiRef, l as gitReleaseManagerPlugin, k as internals } from './esm/index-08755cda.esm.js';
+import '@backstage/core-plugin-api';
+import '@octokit/rest';
+import '@backstage/integration';
+import 'react';
+import '@material-ui/core/colors';
+import '@material-ui/icons/CallSplit';
+import '@material-ui/icons/Chat';
+import '@material-ui/icons/DynamicFeed';
+import '@material-ui/icons/GitHub';
+import '@material-ui/icons/LocalOffer';
+import '@material-ui/core';
+import '@backstage/core-components';
+import '@material-ui/lab';
+import '@material-ui/icons/CheckCircleOutline';
+import '@material-ui/icons/ErrorOutline';
+import '@material-ui/icons/FiberManualRecord';
+import '@material-ui/icons/OpenInNew';
+//# sourceMappingURL=index.esm.js.map

@@ -1,0 +1,1 @@
+export { BitriseBuildsTable } from './BitriseBuildsTableComponent';

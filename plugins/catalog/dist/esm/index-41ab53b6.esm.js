@@ -1,0 +1,23 @@
+import { RELATION_HAS_PART } from '@backstage/catalog-model';
+import React from 'react';
+import { R as RelatedEntitiesCard, c as componentEntityColumns, e as asComponentEntities } from './presets-13b889b9.esm.js';
+import '@material-ui/core';
+import '@backstage/plugin-catalog-react';
+import '@backstage/core-components';
+
+function HasSubcomponentsCard(props) {
+  const { variant = "gridItem" } = props;
+  return /* @__PURE__ */ React.createElement(RelatedEntitiesCard, {
+    variant,
+    title: "Has subcomponents",
+    entityKind: "Component",
+    relationType: RELATION_HAS_PART,
+    columns: componentEntityColumns,
+    asRenderableEntities: asComponentEntities,
+    emptyMessage: "No subcomponent is part of this component",
+    emptyHelpLink: "https://backstage.io/docs/features/software-catalog/descriptor-format#specsubcomponentof-optional"
+  });
+}
+
+export { HasSubcomponentsCard };
+//# sourceMappingURL=index-41ab53b6.esm.js.map

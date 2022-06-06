@@ -1,0 +1,1 @@
+export { TechDocsReaderPageSubheader } from './TechDocsReaderPageSubheader';

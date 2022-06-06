@@ -1,0 +1,1 @@
+export { CustomResources } from './CustomResources';

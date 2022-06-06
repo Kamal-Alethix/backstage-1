@@ -1,0 +1,1 @@
+export { DagTableComponent } from './DagTableComponent';

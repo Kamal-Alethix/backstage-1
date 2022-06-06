@@ -1,0 +1,1 @@
+export { ScorecardInfo } from './ScorecardInfo';

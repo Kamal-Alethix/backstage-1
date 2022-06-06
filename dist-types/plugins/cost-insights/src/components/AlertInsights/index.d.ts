@@ -1,0 +1,1 @@
+export { AlertInsights } from './AlertInsights';

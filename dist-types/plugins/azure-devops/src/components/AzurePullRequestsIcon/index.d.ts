@@ -1,0 +1,1 @@
+export { AzurePullRequestsIcon } from './AzurePullRequestsIcon';

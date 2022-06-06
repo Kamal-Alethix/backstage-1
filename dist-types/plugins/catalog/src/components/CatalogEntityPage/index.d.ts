@@ -1,0 +1,1 @@
+export { CatalogEntityPage } from './CatalogEntityPage';

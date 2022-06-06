@@ -1,0 +1,1 @@
+export { useSanitizerTransformer } from './transformer';

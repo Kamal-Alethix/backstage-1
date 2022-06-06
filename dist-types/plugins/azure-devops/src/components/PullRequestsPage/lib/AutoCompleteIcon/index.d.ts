@@ -1,0 +1,1 @@
+export { AutoCompleteIcon } from './AutoCompleteIcon';

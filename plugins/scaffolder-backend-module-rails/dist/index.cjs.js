@@ -1,0 +1,274 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var errors = require('@backstage/errors');
+var fs = require('fs-extra');
+var pluginScaffolderBackend = require('@backstage/plugin-scaffolder-backend');
+var path = require('path');
+var commandExists = require('command-exists');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
+var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+var commandExists__default = /*#__PURE__*/_interopDefaultLegacy(commandExists);
+
+var Webpacker = /* @__PURE__ */ ((Webpacker2) => {
+  Webpacker2["react"] = "react";
+  Webpacker2["vue"] = "vue";
+  Webpacker2["angular"] = "angular";
+  Webpacker2["elm"] = "elm";
+  Webpacker2["stimulus"] = "stimulus";
+  return Webpacker2;
+})(Webpacker || {});
+var Database = /* @__PURE__ */ ((Database2) => {
+  Database2["mysql"] = "mysql";
+  Database2["postgresql"] = "postgresql";
+  Database2["sqlite3"] = "sqlite3";
+  Database2["oracle"] = "oracle";
+  Database2["sqlserver"] = "sqlserver";
+  Database2["jdbcmysql"] = "jdbcmysql";
+  Database2["jdbcsqlite3"] = "jdbcsqlite3";
+  Database2["jdbcpostgresql"] = "jdbcpostgresql";
+  Database2["jdbc"] = "jdbc";
+  return Database2;
+})(Database || {});
+var RailsVersion = /* @__PURE__ */ ((RailsVersion2) => {
+  RailsVersion2["dev"] = "dev";
+  RailsVersion2["edge"] = "edge";
+  RailsVersion2["master"] = "master";
+  RailsVersion2["fromImage"] = "fromImage";
+  return RailsVersion2;
+})(RailsVersion || {});
+const railsArgumentResolver = (projectRoot, options, executionOnContainer = false) => {
+  const argumentsToRun = [];
+  if (options == null ? void 0 : options.minimal) {
+    argumentsToRun.push("--minimal");
+  }
+  if (options == null ? void 0 : options.api) {
+    argumentsToRun.push("--api");
+  }
+  if (options == null ? void 0 : options.skipBundle) {
+    argumentsToRun.push("--skip-bundle");
+  }
+  if (options == null ? void 0 : options.skipWebpackInstall) {
+    argumentsToRun.push("--skip-webpack-install");
+  }
+  if (options == null ? void 0 : options.skipTest) {
+    argumentsToRun.push("--skip-test");
+  }
+  if (options == null ? void 0 : options.force) {
+    argumentsToRun.push("--force");
+  }
+  if ((options == null ? void 0 : options.webpacker) && Object.values(Webpacker).includes(options == null ? void 0 : options.webpacker)) {
+    argumentsToRun.push("--webpack");
+    argumentsToRun.push(options.webpacker);
+  }
+  if ((options == null ? void 0 : options.database) && Object.values(Database).includes(options == null ? void 0 : options.database)) {
+    argumentsToRun.push("--database");
+    argumentsToRun.push(options.database);
+  }
+  if ((options == null ? void 0 : options.railsVersion) !== "fromImage" /* fromImage */ && Object.values(RailsVersion).includes(options == null ? void 0 : options.railsVersion)) {
+    argumentsToRun.push(`--${options.railsVersion}`);
+  }
+  if (options == null ? void 0 : options.template) {
+    argumentsToRun.push("--template");
+    argumentsToRun.push(options.template.replace(`.${path.sep}`, `${projectRoot}${executionOnContainer ? "/" : path.sep}`));
+  }
+  return argumentsToRun;
+};
+
+class RailsNewRunner {
+  constructor({ containerRunner }) {
+    this.containerRunner = containerRunner;
+  }
+  async run({
+    workspacePath,
+    values,
+    logStream
+  }) {
+    const intermediateDir = path__default["default"].join(workspacePath, "intermediate");
+    await fs__default["default"].ensureDir(intermediateDir);
+    const resultDir = path__default["default"].join(workspacePath, "result");
+    const { name, imageName, railsArguments } = values;
+    const mountDirs = {
+      [workspacePath]: "/input",
+      [intermediateDir]: "/output"
+    };
+    const baseCommand = "rails";
+    const baseArguments = ["new"];
+    const commandExistsToRun = await commandExists__default["default"](baseCommand);
+    if (commandExistsToRun) {
+      const arrayExtraArguments = railsArgumentResolver(workspacePath, railsArguments);
+      await pluginScaffolderBackend.executeShellCommand({
+        command: baseCommand,
+        args: [
+          ...baseArguments,
+          `${intermediateDir}${path__default["default"].sep}${name}`,
+          ...arrayExtraArguments
+        ],
+        logStream
+      });
+    } else {
+      if (!imageName) {
+        throw new Error("No imageName provided");
+      }
+      const arrayExtraArguments = railsArgumentResolver("/input", railsArguments, true);
+      await this.containerRunner.runContainer({
+        imageName,
+        command: baseCommand,
+        args: [...baseArguments, `/output/${name}`, ...arrayExtraArguments],
+        mountDirs,
+        workingDir: "/input",
+        envVars: { HOME: "/tmp" },
+        logStream
+      });
+    }
+    const [generated] = await fs__default["default"].readdir(intermediateDir);
+    if (generated === void 0) {
+      throw new Error(`No data generated by ${baseCommand}`);
+    }
+    await fs__default["default"].move(path__default["default"].join(intermediateDir, generated), resultDir);
+  }
+}
+
+function createFetchRailsAction(options) {
+  const { reader, integrations, containerRunner } = options;
+  return pluginScaffolderBackend.createTemplateAction({
+    id: "fetch:rails",
+    description: "Downloads a template from the given URL into the workspace, and runs a rails new generator on it.",
+    schema: {
+      input: {
+        type: "object",
+        required: ["url"],
+        properties: {
+          url: {
+            title: "Fetch URL",
+            description: "Relative path or absolute URL pointing to the directory tree to fetch",
+            type: "string"
+          },
+          targetPath: {
+            title: "Target Path",
+            description: "Target path within the working directory to download the contents to.",
+            type: "string"
+          },
+          values: {
+            title: "Template Values",
+            description: "Values to pass on to rails for templating",
+            type: "object",
+            properties: {
+              railsArguments: {
+                title: "Arguments to pass to new command",
+                description: "You can provide some arguments to create a custom app",
+                type: "object",
+                properties: {
+                  minimal: {
+                    title: "minimal",
+                    description: "Preconfigure a minimal rails app",
+                    type: "boolean"
+                  },
+                  skipBundle: {
+                    title: "skipBundle",
+                    description: "Don't run bundle install",
+                    type: "boolean"
+                  },
+                  skipWebpackInstall: {
+                    title: "skipWebpackInstall",
+                    description: "Don't run Webpack install",
+                    type: "boolean"
+                  },
+                  skipTest: {
+                    title: "skipTest",
+                    description: "Skip test files",
+                    type: "boolean"
+                  },
+                  force: {
+                    title: "force",
+                    description: "Overwrite files that already exist",
+                    type: "boolean"
+                  },
+                  api: {
+                    title: "api",
+                    description: "Preconfigure smaller stack for API only apps",
+                    type: "boolean"
+                  },
+                  template: {
+                    title: "template",
+                    description: "Path to some application template (can be a filesystem path or URL)",
+                    type: "string"
+                  },
+                  webpacker: {
+                    title: "webpacker",
+                    description: "Preconfigure Webpack with a particular framework (options: react, vue, angular, elm, stimulus)",
+                    type: "string",
+                    enum: ["react", "vue", "angular", "elm", "stimulus"]
+                  },
+                  database: {
+                    title: "database",
+                    description: "Preconfigure for selected database (options: mysql/postgresql/sqlite3/oracle/sqlserver/jdbcmysql/jdbcsqlite3/jdbcpostgresql/jdbc)",
+                    type: "string",
+                    enum: [
+                      "mysql",
+                      "postgresql",
+                      "sqlite3",
+                      "oracle",
+                      "sqlserver",
+                      "jdbcmysql",
+                      "jdbcsqlite3",
+                      "jdbcpostgresql",
+                      "jdbc"
+                    ]
+                  },
+                  railsVersion: {
+                    title: "Rails version in Gemfile",
+                    description: "Set up the application with Gemfile pointing to a specific version (options: fromImage, dev, edge, master)",
+                    type: "string",
+                    enum: ["dev", "edge", "master", "fromImage"]
+                  }
+                }
+              }
+            }
+          },
+          imageName: {
+            title: "Rails Docker image",
+            description: "Specify a Docker image to run rails new. Used only when a local rails is not found.",
+            type: "string"
+          }
+        }
+      }
+    },
+    async handler(ctx) {
+      var _a, _b, _c;
+      ctx.logger.info("Fetching and then templating using rails");
+      const workDir = await ctx.createTemporaryDirectory();
+      const resultDir = path.resolve(workDir, "result");
+      await pluginScaffolderBackend.fetchContents({
+        reader,
+        integrations,
+        baseUrl: (_a = ctx.templateInfo) == null ? void 0 : _a.baseUrl,
+        fetchUrl: ctx.input.url,
+        outputPath: workDir
+      });
+      const templateRunner = new RailsNewRunner({ containerRunner });
+      const { imageName } = ctx.input;
+      if (imageName && !((_b = options.allowedImageNames) == null ? void 0 : _b.includes(imageName))) {
+        throw new Error(`Image ${imageName} is not allowed`);
+      }
+      await templateRunner.run({
+        workspacePath: workDir,
+        logStream: ctx.logStream,
+        values: { ...ctx.input.values, imageName }
+      });
+      const targetPath = (_c = ctx.input.targetPath) != null ? _c : "./";
+      const outputPath = path.resolve(ctx.workspacePath, targetPath);
+      if (!outputPath.startsWith(ctx.workspacePath)) {
+        throw new errors.InputError(`Fetch action targetPath may not specify a path outside the working directory`);
+      }
+      await fs__default["default"].copy(resultDir, outputPath);
+    }
+  });
+}
+
+exports.createFetchRailsAction = createFetchRailsAction;
+//# sourceMappingURL=index.cjs.js.map

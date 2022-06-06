@@ -1,0 +1,24 @@
+import { IconComponent } from '@backstage/core-plugin-api';
+export declare const icons: {
+    brokenImage: IconComponent;
+    catalog: IconComponent;
+    scaffolder: IconComponent;
+    techdocs: IconComponent;
+    search: IconComponent;
+    chat: IconComponent;
+    dashboard: IconComponent;
+    docs: IconComponent;
+    email: IconComponent;
+    github: IconComponent;
+    group: IconComponent;
+    help: IconComponent;
+    'kind:api': IconComponent;
+    'kind:component': IconComponent;
+    'kind:domain': IconComponent;
+    'kind:group': IconComponent;
+    'kind:location': IconComponent;
+    'kind:system': IconComponent;
+    'kind:user': IconComponent;
+    user: IconComponent;
+    warning: IconComponent;
+};

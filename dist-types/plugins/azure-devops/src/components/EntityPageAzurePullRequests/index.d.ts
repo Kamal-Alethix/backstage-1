@@ -1,0 +1,1 @@
+export { EntityPageAzurePullRequests } from './EntityPageAzurePullRequests';

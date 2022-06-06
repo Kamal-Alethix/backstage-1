@@ -1,0 +1,11 @@
+import { V1Pod, V1PodCondition, V1DeploymentCondition } from '@kubernetes/client-node';
+import { ReactNode } from 'react';
+import { ClientPodStatus } from '@backstage/plugin-kubernetes-common';
+export declare const imageChips: (pod: V1Pod) => ReactNode;
+export declare const containersReady: (pod: V1Pod) => string;
+export declare const totalRestarts: (pod: V1Pod) => number;
+export declare const containerStatuses: (pod: V1Pod) => ReactNode;
+export declare const renderCondition: (condition: V1PodCondition | V1DeploymentCondition) => [string, ReactNode];
+export declare const currentToDeclaredResourceToPerc: (current: number | string, resource: number | string) => string;
+export declare const podStatusToCpuUtil: (podStatus: ClientPodStatus) => ReactNode;
+export declare const podStatusToMemoryUtil: (podStatus: ClientPodStatus) => ReactNode;

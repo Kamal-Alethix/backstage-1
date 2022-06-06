@@ -1,0 +1,1 @@
+export { AzureGitTagsIcon } from './AzureGitTagsIcon';

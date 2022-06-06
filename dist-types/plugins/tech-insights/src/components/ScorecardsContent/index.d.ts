@@ -1,0 +1,1 @@
+export { ScorecardsContent } from './ScorecardContent';

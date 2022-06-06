@@ -1,0 +1,1 @@
+export { LegacySearchPage } from './LegacySearchPage';

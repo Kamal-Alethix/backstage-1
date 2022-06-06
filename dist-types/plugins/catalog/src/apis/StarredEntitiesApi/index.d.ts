@@ -1,0 +1,1 @@
+export { DefaultStarredEntitiesApi } from './DefaultStarredEntitiesApi';

@@ -1,0 +1,1 @@
+export { GitTagTable } from './GitTagTable';

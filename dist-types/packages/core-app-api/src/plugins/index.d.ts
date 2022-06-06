@@ -1,0 +1,1 @@
+export { pluginCollector } from './collectors';

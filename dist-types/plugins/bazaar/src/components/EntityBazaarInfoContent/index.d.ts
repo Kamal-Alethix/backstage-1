@@ -1,0 +1,1 @@
+export { EntityBazaarInfoContent } from './EntityBazaarInfoContent';

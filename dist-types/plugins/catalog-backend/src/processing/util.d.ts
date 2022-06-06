@@ -1,0 +1,11 @@
+import { Entity, LocationEntity } from '@backstage/catalog-model';
+import { JsonObject, JsonValue } from '@backstage/types';
+import { ScmIntegrationRegistry } from '@backstage/integration';
+import { LocationSpec } from '../api';
+export declare function isLocationEntity(entity: Entity): entity is LocationEntity;
+export declare function getEntityLocationRef(entity: Entity): string;
+export declare function getEntityOriginLocationRef(entity: Entity): string;
+export declare function toAbsoluteUrl(integrations: ScmIntegrationRegistry, base: LocationSpec, type: string, target: string): string;
+export declare function isObject(value: JsonValue | undefined): value is JsonObject;
+export declare const validateEntity: (data: unknown) => Entity;
+export declare const validateEntityEnvelope: (data: unknown) => import("@backstage/catalog-model").EntityEnvelope;

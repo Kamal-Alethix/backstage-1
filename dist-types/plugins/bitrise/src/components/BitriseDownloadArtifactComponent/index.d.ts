@@ -1,0 +1,1 @@
+export { BitriseDownloadArtifactComponent } from './BitriseDownloadArtifactComponent';

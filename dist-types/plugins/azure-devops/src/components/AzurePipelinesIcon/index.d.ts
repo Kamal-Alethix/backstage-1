@@ -1,0 +1,1 @@
+export { AzurePipelinesIcon } from './AzurePipelinesIcon';

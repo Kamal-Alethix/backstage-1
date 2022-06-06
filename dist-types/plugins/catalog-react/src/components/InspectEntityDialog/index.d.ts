@@ -1,0 +1,1 @@
+export { InspectEntityDialog } from './InspectEntityDialog';

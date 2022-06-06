@@ -1,0 +1,1 @@
+export { ProductInsights } from './ProductInsights';

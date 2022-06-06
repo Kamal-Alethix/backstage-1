@@ -1,0 +1,1 @@
+export { LastLighthouseAuditCard } from './LastLighthouseAuditCard';

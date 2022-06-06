@@ -1,0 +1,34 @@
+import React, { useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router';
+import { entityRouteRef, catalogApiRef, AsyncEntityProvider } from '@backstage/plugin-catalog-react';
+import { useRouteRefParams, useApi, errorApiRef } from '@backstage/core-plugin-api';
+import useAsyncRetry from 'react-use/lib/useAsyncRetry';
+
+const useEntityFromUrl = () => {
+  const { kind, namespace, name } = useRouteRefParams(entityRouteRef);
+  const navigate = useNavigate();
+  const errorApi = useApi(errorApiRef);
+  const catalogApi = useApi(catalogApiRef);
+  const {
+    value: entity,
+    error,
+    loading,
+    retry: refresh
+  } = useAsyncRetry(() => catalogApi.getEntityByRef({ kind, namespace, name }), [catalogApi, kind, namespace, name]);
+  useEffect(() => {
+    if (!name) {
+      errorApi.post(new Error("No name provided!"));
+      navigate("/");
+    }
+  }, [errorApi, navigate, error, loading, entity, name]);
+  return { entity, loading, error, refresh };
+};
+
+function CatalogEntityPage() {
+  return /* @__PURE__ */ React.createElement(AsyncEntityProvider, {
+    ...useEntityFromUrl()
+  }, /* @__PURE__ */ React.createElement(Outlet, null));
+}
+
+export { CatalogEntityPage };
+//# sourceMappingURL=index-4e6adb42.esm.js.map
