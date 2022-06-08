@@ -40,36 +40,36 @@ entries.push({
     {
       moved: 0,
       ringId: 'adopt',
-      date: new Date('2020-08-06'),
+      date: new Date('2022-03-01'),
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+        'Recommended Teach Stack for EGIS II backend Microservice Development',
     },
   ],
-  url: '#',
-  key: 'javascript',
-  id: 'javascript',
-  title: 'JavaScript',
+  url: 'https://openjdk.java.net/',
+  key: 'Java',
+  id: 'Java Platform Standard Edition 18',
+  title: 'Java',
   quadrant: 'languages',
   description:
-    'Excepteur **sint** occaecat *cupidatat* non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n```ts\nconst x = "3";\n```\n',
+    'Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible',
 });
 entries.push({
   timeline: [
     {
       moved: -1,
       ringId: 'adopt',
-      date: new Date('2020-08-06'),
+      date: new Date('2022-04-26'),
       description:
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+        'Recommended Teach Stack for EGIS II User Interface Development',
     },
   ],
-  url: '#',
-  key: 'typescript',
-  id: 'typescript',
-  title: 'TypeScript',
+  url: 'https://reactjs.org/',
+  key: 'React',
+  id: 'React 18.1.0',
+  title: 'React',
   quadrant: 'languages',
   description:
-    'Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat',
+    'React is a free and open-source front-end JavaScript library for building user interfaces based on UI components',
 });
 entries.push({
   timeline: [
@@ -82,9 +82,9 @@ entries.push({
     },
   ],
   url: 'https://webpack.js.org/',
-  key: 'webpack',
-  id: 'webpack',
-  title: 'Webpack',
+  key: 'Spring',
+  id: 'Spring 2.7.0',
+  title: 'Spring Framework',
   quadrant: 'frameworks',
 });
 entries.push({
