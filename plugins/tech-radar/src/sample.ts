@@ -46,9 +46,9 @@ entries.push({
     },
   ],
   url: '#',
-  key: 'javascript',
-  id: 'javascript',
-  title: 'JavaScript',
+  key: 'Java',
+  id: 'Java',
+  title: 'Java',
   quadrant: 'languages',
   description:
     'Excepteur **sint** occaecat *cupidatat* non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\n```ts\nconst x = "3";\n```\n',
